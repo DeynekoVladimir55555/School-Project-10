@@ -6,12 +6,9 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 
 import DataBaseFile
 import GenerationQuestionFile
-import GenerationProgrammingFile
 import InformationWindow
 import StatisticsWindows
 import MoveFunction
-import ProgCheckAnswer
-
 
 # Класс главного окна
 class MainQuestionWindow(QMainWindow):
@@ -78,88 +75,6 @@ class MainQuestionWindow(QMainWindow):
         self.answerLabel.setText('')
         self.answerEdit.setText('')
         self.nextButton.setEnabled(True)
-
-
-class MainProgrammingWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        uic.loadUi('uis\MainProgrammingWindow.ui', self)
-        self.setWindowTitle('Программирование')
-        self.initUi()
-
-    def initUi(self):
-        self.checkButton.clicked.connect(self.check)
-        self.exitButton.clicked.connect(self.exit)
-        self.returnButton.clicked.connect(self.return_back)
-        self.statButton.clicked.connect(self.stat)
-        self.skipButton.clicked.connect(self.skip)
-        self.delStatButton.clicked.connect(self.delete)
-
-        self.questionEdit.setReadOnly(True)
-
-    def check(self):
-        werd = ProgCheckAnswer.check_answer(self.answer_quest, self.answerEdit.toPlainText(), self.numbers)
-        apw.answer(werd)
-        apw.show()
-
-    def create_question(self, flag=False):
-        q = GenerationProgrammingFile.create_question()
-        self.answer_quest = q[1]
-        self.numbers = q[2]
-        self.questionEdit.setText(q[0])
-
-    def return_back(self):
-        self.close()
-        cw.show()
-
-    def stat(self):
-        statqw.show()
-
-    def exit(self):
-        self.close()
-    def skip(self):
-        DataBaseFile.insert('None', 'ProgAnswers')
-        self.answerEdit.setText('')
-        self.create_question()
-
-    def delete(self):
-        DataBaseFile.delete_pa()
-
-
-class AnswerProgrammingWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        uic.loadUi('uis\AnswerProgrammingWindow.ui', self)
-        self.setWindowTitle('Ответ')
-        self.setWindowFlag(QtCore.Qt.WindowStaysOnTopHint)
-        self.flag = False
-        self.initUi()
-
-    def initUi(self):
-        self.retryButton.clicked.connect(self.retry)
-        self.nextButton.clicked.connect(self.next)
-
-    def answer(self, werd):
-        if werd[0] == True:
-            self.retryButton.setEnabled(False)
-            self.werdEdit.setText('''Вердикт:\nВерно''')
-            self.flag = True
-        else:
-            self.werdEdit.setText(f'''Вердикт:\nНеверно\n{werd[1]}''')
-
-    def retry(self):
-        self.close()
-
-    def next(self):
-        if self.flag:
-            DataBaseFile.insert('True', 'ProgAnswers')
-        else:
-            DataBaseFile.insert('False', 'ProgAnswers')
-        self.flag = False
-        self.close()
-        mpw.answerEdit.setText('')
-        self.retryButton.setEnabled(True)
-        mpw.create_question()
 
 
 # Окно выбора задач на программирование или на системы счисления
