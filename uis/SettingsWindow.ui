@@ -7,69 +7,17 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>260</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="diffecultyLabel">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>110</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Сложность:</string>
-   </property>
-  </widget>
-  <widget class="QRadioButton" name="easyButton">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>35</y>
-     <width>80</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Легко</string>
-   </property>
-  </widget>
-  <widget class="QRadioButton" name="normalButton">
-   <property name="geometry">
-    <rect>
-     <x>105</x>
-     <y>35</y>
-     <width>140</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Нормально</string>
-   </property>
-  </widget>
-  <widget class="QRadioButton" name="hardButton">
-   <property name="geometry">
-    <rect>
-     <x>260</x>
-     <y>35</y>
-     <width>110</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Сложно</string>
-   </property>
-  </widget>
   <widget class="QCheckBox" name="typesBox">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>60</y>
+     <y>10</y>
      <width>150</width>
      <height>20</height>
     </rect>
@@ -82,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>100</y>
+     <y>40</y>
      <width>100</width>
      <height>17</height>
     </rect>
@@ -95,7 +43,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>130</y>
+     <y>70</y>
      <width>100</width>
      <height>17</height>
     </rect>
@@ -108,7 +56,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>260</y>
+     <y>220</y>
      <width>100</width>
      <height>30</height>
     </rect>
@@ -121,7 +69,7 @@
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>260</y>
+     <y>220</y>
      <width>100</width>
      <height>30</height>
     </rect>
@@ -133,8 +81,8 @@
   <widget class="QPushButton" name="informationButton">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>160</y>
+     <x>230</x>
+     <y>30</y>
      <width>120</width>
      <height>30</height>
     </rect>
@@ -146,8 +94,8 @@
   <widget class="QPushButton" name="clearStatisticsButton">
    <property name="geometry">
     <rect>
-     <x>199</x>
-     <y>160</y>
+     <x>200</x>
+     <y>100</y>
      <width>181</width>
      <height>30</height>
     </rect>
@@ -160,13 +108,39 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>210</y>
+     <y>170</y>
      <width>300</width>
      <height>30</height>
     </rect>
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="type3Box">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>100</y>
+     <width>100</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Тип 3</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="type4Box">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>130</y>
+     <width>100</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Тип 4</string>
    </property>
   </widget>
  </widget>

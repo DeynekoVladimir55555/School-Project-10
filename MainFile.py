@@ -10,6 +10,7 @@ import InformationWindow
 import StatisticsWindows
 import MoveFunction
 
+
 # Класс главного окна
 class MainQuestionWindow(QMainWindow):
     def __init__(self):
@@ -36,7 +37,6 @@ class MainQuestionWindow(QMainWindow):
         self.statisticsButton.clicked.connect(self.statistics)
         self.nextButton.clicked.connect(self.create_question)
         self.answerButton.clicked.connect(self.answer)
-        self.returnButton.clicked.connect(self.return_back)
 
         self.questionEdit.setReadOnly(True)
 
@@ -45,10 +45,6 @@ class MainQuestionWindow(QMainWindow):
 
     def settings(self):
         sw.show()
-
-    def return_back(self):
-        self.close()
-        cw.show()
 
     def statistics(self):
         statw.show()
@@ -64,50 +60,17 @@ class MainQuestionWindow(QMainWindow):
 
     def create_question(self, flag=False):
         if not flag:
-        # Запись неправильно решённой задачи
+            # Запись неправильно решённой задачи
             if self.answerLabel.text() != 'Верно':
                 DataBaseFile.insert('False', 'QuestionAnswers')
         self.nextButton.setEnabled(False)
         # Генерация задачи
-        n = GenerationQuestionFile.print_question(self.difficulty, self.types)
+        n = GenerationQuestionFile.generation_function(self.types)
         self.answer = n[1]
         self.questionEdit.setText(n[0])
         self.answerLabel.setText('')
         self.answerEdit.setText('')
         self.nextButton.setEnabled(True)
-
-
-# Окно выбора задач на программирование или на системы счисления
-class ChoiceWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        uic.loadUi('uis\ChoiceWindow.ui', self)
-        self.setWindowTitle('Выбор задач')
-        MoveFunction.move_to_senter(self)
-        self.quest = False
-        self.prog = False
-        self.initUi()
-
-    def initUi(self):
-        self.confirmButton.clicked.connect(self.confirm)
-        self.programmButton.clicked.connect(self.programming)
-        self.questionButton.clicked.connect(self.question)
-
-    def confirm(self):
-        if self.prog:
-            self.close()
-            mpw.show()
-        elif self.quest:
-            self.close()
-            mqw.show()
-
-    def programming(self):
-        self.prog = True
-        self.quest = False
-
-    def question(self):
-        self.quest = True
-        self.prog = False
 
 
 # Приветственное окно
@@ -125,7 +88,8 @@ class HelloWindow(QMainWindow):
 
     def start(self):
         self.close()
-        cw.show()
+        mqw.show()
+
 
 # Окно настроек задач на системы счисления
 class SettingsQuestionWindow(QMainWindow):
@@ -144,75 +108,75 @@ class SettingsQuestionWindow(QMainWindow):
         self.acceptButton.clicked.connect(self.save)
         self.informationButton.clicked.connect(self.show_information)
         self.typesBox.clicked.connect(self.choice_type)
-        self.easyButton.clicked.connect(self.easy)
-        self.normalButton.clicked.connect(self.normal)
-        self.hardButton.clicked.connect(self.hard)
         self.clearStatisticsButton.clicked.connect(DataBaseFile.delete_qa)
-        self.normalButton.setChecked(True)
         # Получение настроек при запуске
         a = DataBaseFile.find('''SELECT * FROM QuestionSettings''')
 
         self.type1Box.setEnabled(False)
         self.type2Box.setEnabled(False)
-        self.difficulty = a[0]
-        if a[1] == 'True':
+        self.type3Box.setEnabled(False)
+        self.type4Box.setEnabled(False)
+        if a[0] == 'True':
             self.type1Box.setChecked(True)
         else:
             self.type1Box.setChecked(False)
-        if a[2] == 'True':
+        if a[1] == 'True':
             self.type2Box.setChecked(True)
         else:
             self.type2Box.setChecked(False)
+        if a[2] == 'True':
+            self.type3Box.setChecked(True)
+        else:
+            self.type3Box.setChecked(False)
+        if a[3] == 'True':
+            self.type4Box.setChecked(True)
+        else:
+            self.type4Box.setChecked(False)
 
     def close_window(self):
         # Закрытие и возвращение изменений
         self.errorLabel.setText('')
         a = DataBaseFile.find('''SELECT * FROM QuestionSettings''')
-        self.difficulty = a[0]
-        if self.difficulty == 1:
-            self.easyButton.setChecked(True)
-        elif self.difficulty == 2:
-            self.normalButton.setChecked(True)
-        elif self.difficulty == 3:
-            self.hardButton.setChecked(True)
-        if a[1] == 'True':
+        if a[0] == 'True':
             self.type1Box.setChecked(True)
         else:
             self.type1Box.setChecked(False)
-        if a[2] == 'True':
+        if a[1] == 'True':
             self.type2Box.setChecked(True)
         else:
             self.type2Box.setChecked(False)
+        if a[2] == 'True':
+            self.type3Box.setChecked(True)
+        else:
+            self.type3Box.setChecked(False)
+        if a[3] == 'True':
+            self.type4Box.setChecked(True)
+        else:
+            self.type4Box.setChecked(False)
         self.close()
 
     def show_information(self):
         iw.show()
 
-    def easy(self):
-        self.difficulty = 1
-
-    def normal(self):
-        self.difficulty = 2
-
-    def hard(self):
-        self.difficulty = 3
-
     def save(self):
         # Проверка на наличие хотя бы 1 типа в генерации
-        if not (self.type1Box.isChecked() or self.type2Box.isChecked()):
+        if not (self.type1Box.isChecked() or self.type2Box.isChecked() or self.type3Box.isChecked() or
+        self.type4Box.isChecked()):
             self.errorLabel.setText('Вы не выбрали тип задач.')
         else:
             self.errorLabel.setText('')
             # Закрытие и сохранение изменений
             types = [self.type1Box.isChecked(), self.type2Box.isChecked()]
-            DataBaseFile.update(self.difficulty, types)
-            a = DataBaseFile.find('''SELECT * FROM QuestionSettings''')
+            DataBaseFile.update(types)
             b = []
-            mqw.difficulty = a[0]
-            if a[1] == 'True':
+            if types[0] == 'True':
                 b.append(1)
-            if a[2] == 'True':
+            if types[1] == 'True':
                 b.append(2)
+            if types[2] == 'True':
+                b.append(3)
+            if types[3] == 'True':
+                b.append(4)
             mqw.types = b
             self.close()
 
@@ -221,20 +185,19 @@ class SettingsQuestionWindow(QMainWindow):
         if self.typesBox.isChecked():
             self.type1Box.setEnabled(True)
             self.type2Box.setEnabled(True)
+            self.type3Box.setEnabled(True)
+            self.type4Box.setEnabled(True)
         else:
             self.type1Box.setEnabled(False)
             self.type2Box.setEnabled(False)
+            self.type3Box.setEnabled(False)
+            self.type4Box.setEnabled(False)
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     mqw = MainQuestionWindow()
     mqw.create_question(flag=True)
-    mpw = MainProgrammingWindow()
-    mpw.create_question(flag=True)
-    apw = AnswerProgrammingWindow()
-    statqw = StatisticsWindows.StatisticsProgrammingWindow()
-    cw = ChoiceWindow()
     sw = SettingsQuestionWindow()
     statw = StatisticsWindows.StatisticsQuestionWindow()
     iw = InformationWindow.InformationWindow()
