@@ -2,7 +2,7 @@ from random import randint, choice
 
 
 def generation_function(types):
-    ques_type = generate_type(types)
+    ques_type = choice(types)
     if ques_type == 1:
         return generation_type_1()
     elif ques_type == 2:
@@ -28,10 +28,6 @@ def translate_from_ten(number, sistem):
         res += generation_utilies[number % sistem]
         number //= sistem
     return res[::-1]
-
-
-def generate_type(types):
-    return choice(types)
 
 
 def generation_type_1():
@@ -114,4 +110,3 @@ def generation_type_4():
 type_2_words = (['двоичной', 'троичной', 'четверичной', 'пятиричной', 'шестиричной', 'семиричной',
                  'восьмиричной', 'девятиричной'], ['две одинаковые цифры'])
 generation_utilies = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
-

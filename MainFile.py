@@ -22,13 +22,16 @@ class MainQuestionWindow(QMainWindow):
 
         self.initUi()
         # Получение настроек
-        a = DataBaseFile.find('''SELECT * FROM QuestionSettings''')
+        types = DataBaseFile.find('''SELECT * FROM QuestionSettings''')
         b = []
-        self.difficulty = a[0]
-        if a[1] == 'True':
+        if types[0] == 'True':
             b.append(1)
-        if a[2] == 'True':
+        if types[1] == 'True':
             b.append(2)
+        if types[2] == 'True':
+            b.append(3)
+        if types[3] == 'True':
+            b.append(4)
         self.types = b
 
     def initUi(self):
@@ -166,16 +169,17 @@ class SettingsQuestionWindow(QMainWindow):
         else:
             self.errorLabel.setText('')
             # Закрытие и сохранение изменений
-            types = [self.type1Box.isChecked(), self.type2Box.isChecked()]
+            types = [self.type1Box.isChecked(), self.type2Box.isChecked(),
+                     self.type3Box.isChecked(), self.type4Box.isChecked()]
             DataBaseFile.update(types)
             b = []
-            if types[0] == 'True':
+            if types[0]:
                 b.append(1)
-            if types[1] == 'True':
+            if types[1]:
                 b.append(2)
-            if types[2] == 'True':
+            if types[2]:
                 b.append(3)
-            if types[3] == 'True':
+            if types[3]:
                 b.append(4)
             mqw.types = b
             self.close()
