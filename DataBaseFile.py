@@ -46,6 +46,3 @@ def insert(werd, table):
 def delete_qa():
     cur.execute('''DELETE from QuestionAnswers''')
     con.commit()
-
-
-update(['True', 'True', 'True', 'True'])
