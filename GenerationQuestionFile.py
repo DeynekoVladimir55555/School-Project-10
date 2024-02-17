@@ -45,7 +45,7 @@ def generation_type_1():
     res = ' '.join(list(map(str, elems[1:])))
     sistem = randint(2, 10)
     number = randint(0, sistem - 1)
-    answer = str(translate_from_ten(eval(res), sistem)).count(str(number))
+    answer = str(translate_from_ten(abs(eval(res)), sistem)).count(str(number))
     return [f"Значение выражения {res} записали в системе счисления с основанием {sistem}. " +
             f"Сколько цифр '{number}' содержится в этой записи?", answer]
 
